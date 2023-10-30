@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tetris"
+version = "0.1"
+description = "tetris game build"
+authors = ["morroshub <lgmorrone@icloud.com>"]
+license = "nop"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
