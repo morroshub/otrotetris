@@ -17,8 +17,12 @@ pygame.init()
 screen = pygame.display.set_mode(SCREEN_RESOLUTION)
 clock = pygame.time.Clock()
 
+Grid = World()
 
-Grid = World(columns=10, rows=20, cell_size=20)
+# Timer event
+time_delay = 50 # velocidad de caida
+timer_event = pygame.USEREVENT + 1
+pygame.time.set_timer(timer_event, time_delay)
 
 def game_loop_scene() -> NoReturn:
     #Gameloop
@@ -31,6 +35,15 @@ def game_loop_scene() -> NoReturn:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     end_game()
+                if event.key == pygame.K_RIGHT:
+                    Grid.move(1,0)
+                if event.key == pygame.K_LEFT:
+                    Grid.move(-1,0)
+                if event.key == pygame.K_SPACE:
+                    Grid.rotate()
+            elif event.type == timer_event:
+                Grid.move(0,1)
+                
 
 
         #Creacion de figuras
