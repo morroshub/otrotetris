@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 Grid = World()
 
 # Timer event
-time_delay = 50 # velocidad de caida
+time_delay = 100 # velocidad de caida
 timer_event = pygame.USEREVENT + 1
 pygame.time.set_timer(timer_event, time_delay)
 
