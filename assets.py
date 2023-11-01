@@ -25,9 +25,11 @@ block_list = [Iblock,Tblock,Zblock]
 # logica_rotacion = list(zip(*tblock[::-1])) Esto invierte nuestra lista de [[0,2,0],[2,2,2]] a [[2,2,2],[0,2,0]]
 class World:
     def __init__(self) -> None:
+        self.end = False 
         self.rows = 20
         self.columns = 10
         self.cell_size = 30
+        self.score = 0 
         self.size = (self.columns * self.cell_size, self.rows * self.cell_size)
 
         self.grid = [[0 for _ in range(self.columns)] for _ in range(self.rows)] # Son tuplas dentro de otra tupla
@@ -63,9 +65,9 @@ class World:
             if all(row): # (all) Si todos los valores son distintos a null o 0 devuelve True.
                 self.grid.pop(i)
                 self.grid.insert(0, [0 for _ in range(self.columns)])
+                self.score += self.columns
+                print(self.score)
     
-        self.block = Iblock
-        self.block_offset = [int(self.columns/2)-1,0]
 
     def fix_block(self) -> None:
         for i, block_row in enumerate(self.block):
@@ -111,7 +113,7 @@ class World:
                     self.cell_size,
                 )
                 pygame.draw.rect(screen,COLORS[self.grid[i][j]], posicion, 
-                                 1 if self.grid[i][j] == 0 else 0,) #dibujamos el rectangulo donde va a estar la grilla ; el 1 es el grosor en px de la linea que delimita las celdas
+                                    1 if self.grid[i][j] == 0 else 0,) #dibujamos el rectangulo donde va a estar la grilla ; el 1 es el grosor en px de la linea que delimita las celdas
         # Draw next block
         for i, block_row in enumerate(self.next_block):
             for j, block_element in enumerate(block_row):
@@ -122,11 +124,8 @@ class World:
                     self.cell_size
                 )
                 if block_element != 0:
-                    pygame.draw.rect(
-                        screen, COLORS[block_element],
-                        posicion,
-                        0,
-                    )
+                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0,
+                                     )
 
         # Draw current block
         for i, block_row in enumerate(self.block):
