@@ -1,12 +1,7 @@
 import pygame
 from typing import NoReturn
-from constants import(
-    SCREEN_RESOLUTION,
-    FPS,
-    LIGHT_BLACK,
-)
-
-from assets import World
+from constants import *
+from assets import *
 
 def end_game() -> NoReturn:
     pygame.quit()
@@ -20,7 +15,7 @@ clock = pygame.time.Clock()
 Grid = World()
 
 # Timer event
-time_delay = 100 # velocidad de caida
+time_delay = 500 # velocidad de caida
 timer_event = pygame.USEREVENT + 1
 pygame.time.set_timer(timer_event, time_delay)
 
@@ -60,8 +55,8 @@ def end_scene() -> None:
 
         #Events
         for event in pygame.event.get():
-            if event.type == pygame.KEWDOWN:
-                if event.key = pygame.K_q:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
                     end_game()
                 if event.key == pygame.K_SPACE:
                     restart = True

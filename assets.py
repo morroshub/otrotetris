@@ -1,5 +1,5 @@
 import pygame
-from constants import SCREEN_RESOLUTION, COLORS
+from constants import *
 from typing import Literal
 import random
 
@@ -33,11 +33,11 @@ class World:
         self.size = (self.columns * self.cell_size, self.rows * self.cell_size)
 
         self.grid = [[0 for _ in range(self.columns)] for _ in range(self.rows)] # Son tuplas dentro de otra tupla
-        # print(self.grid)
+        #print(self.grid)
 
-        self.grid[-1] = [1 for _ in range(self.columns)]
+        #self.grid[-1] = [1 for _ in range(self.columns)]
 
-        self.grid[-1][0] = 0
+        #self.grid[-1][0] = 0
 
         self.next_block = random.choice(block_list)
         self.block = random.choice(block_list)
@@ -51,7 +51,7 @@ class World:
         self.block_offset[1] += y
         if self.collision():
             self.block_offset[1] -= y
-            if self.block_offset[1] <= len(self.block[1]):
+            if self.block_offset[1] <= len(self.block):
                 self.end = True
             self.fix_block()
             self.clear_rows()
@@ -77,11 +77,12 @@ class World:
 
         
     
-    def rotate (self) -> None:
+    def rotate(self) -> None:
         before_state = self.block
-        self.block = list(zip(*Tblock[::-1]))
+        self.block = list(zip(*self.block[::-1]))  # Rotar la pieza
         if self.collision():
-            self.blocl = before_state
+            self.block = before_state  # Restaurar la pieza a su estado anterior
+
 
     
 
@@ -104,16 +105,15 @@ class World:
         
 
     def draw(self, screen):
-        for i in range(self.rows):
-            for j in range(self.columns):
+        for i in range(0,self.rows):
+            for j in range(0,self.columns):
                 posicion = (
                     j * self.cell_size + SCREEN_RESOLUTION[0] / 2 - self.columns * self.cell_size / 2,#calcula la posición en píxeles de una celda en la columna j de manera que esté centrada horizontalmente en la pantalla.
                     i * self.cell_size + SCREEN_RESOLUTION[1] / 2 - self.rows * self.cell_size / 2,
                     self.cell_size,
                     self.cell_size,
                 )
-                pygame.draw.rect(screen,COLORS[self.grid[i][j]], posicion, 
-                                    1 if self.grid[i][j] == 0 else 0,) #dibujamos el rectangulo donde va a estar la grilla ; el 1 es el grosor en px de la linea que delimita las celdas
+                pygame.draw.rect(screen,COLORS[0], posicion, 1 if self.grid[i][j] == 0 else 0,) #dibujamos el rectangulo donde va a estar la grilla ; el 1 es el grosor en px de la linea que delimita las celdas
         # Draw next block
         for i, block_row in enumerate(self.next_block):
             for j, block_element in enumerate(block_row):
