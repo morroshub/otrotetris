@@ -91,6 +91,7 @@ def end_scene() -> None:
                 if event.key == pygame.K_q:
                     end_game()
                 if event.key == pygame.K_SPACE:
+                    pygame.time.set_timer(timer_event, time_delay)
                     restart = True
         
         key = pygame.key.get_pressed()
