@@ -20,20 +20,25 @@ timer_event = pygame.USEREVENT + 1
 pygame.time.set_timer(timer_event, time_delay)
 
 def game_loop_scene() -> None:
-    #Gameloop
+    # Gameloop
+    move_repeat_delay = 200  # Sensibilidad, cuanto mayor mas lento se mueve
+    last_move_time = 0
+
     while not Grid.end:
         clock.tick(FPS)
         screen.fill(LIGHT_BLACK)
 
-        #Events
+        # Events
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     end_game()
                 if event.key == pygame.K_RIGHT:
                     Grid.move(1,0)
+                    last_move_time = pygame.time.get_ticks()
                 if event.key == pygame.K_LEFT:
                     Grid.move(-1,0)
+                    last_move_time = pygame.time.get_ticks()
                 if event.key == pygame.K_DOWN:
                     pygame.time.set_timer(timer_event, 50)
                 if event.key == pygame.K_SPACE:
@@ -43,6 +48,18 @@ def game_loop_scene() -> None:
                     pygame.time.set_timer(timer_event, time_delay)
             elif event.type == timer_event:
                 Grid.move(0,1)
+
+        # Manejo de movimiento continuo
+        if pygame.key.get_pressed()[pygame.K_LEFT]:
+            current_time = pygame.time.get_ticks()
+            if current_time - last_move_time >= move_repeat_delay:
+                Grid.move(-1, 0)
+                last_move_time = current_time
+        if pygame.key.get_pressed()[pygame.K_RIGHT]:
+            current_time = pygame.time.get_ticks()
+            if current_time - last_move_time >= move_repeat_delay:
+                Grid.move(1, 0)
+                last_move_time = current_time
                 
 
 
