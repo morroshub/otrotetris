@@ -47,7 +47,7 @@ def game_loop_scene() -> None:
                 if event.key == pygame.K_DOWN:
                     if (not game_pause):
                         pygame.time.set_timer(timer_event, 50)
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                     if (not game_pause):
                         Grid.rotate()
             if event.type == pygame.KEYUP:
