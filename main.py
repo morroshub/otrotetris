@@ -34,8 +34,13 @@ def game_loop_scene() -> None:
                     Grid.move(1,0)
                 if event.key == pygame.K_LEFT:
                     Grid.move(-1,0)
+                if event.key == pygame.K_DOWN:
+                    pygame.time.set_timer(timer_event, 50)
                 if event.key == pygame.K_SPACE:
                     Grid.rotate()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_DOWN:
+                    pygame.time.set_timer(timer_event, time_delay)
             elif event.type == timer_event:
                 Grid.move(0,1)
                 
