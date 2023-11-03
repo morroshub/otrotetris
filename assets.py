@@ -19,7 +19,7 @@ Iblock = [
 Zblock = [[1, 1, 0], [0, 1, 1]]
 
 
-block_list = [Iblock,Tblock,Zblock]
+block_list = [Iblock,Tblock,Zblock] #[I_block,J_block,L_block,O_block,T_block,S_block,Z_block]
 
 # Jblock,Lblock,Oblock,Sblock
 # logica_rotacion = list(zip(*tblock[::-1])) Esto invierte nuestra lista de [[0,2,0],[2,2,2]] a [[2,2,2],[0,2,0]]
@@ -36,7 +36,6 @@ class World:
         #print(self.grid)
 
         #self.grid[-1] = [1 for _ in range(self.columns)]
-
         #self.grid[-1][0] = 0
 
         self.next_block = random.choice(block_list)
@@ -76,15 +75,12 @@ class World:
                     self.grid[i +self.block_offset[1]][j+ self.block_offset[0]] = block_row
 
         
-    
     def rotate(self) -> None:
         before_state = self.block
         self.block = list(zip(*self.block[::-1]))  # Rotar la pieza
         if self.collision():
             self.block = before_state  # Restaurar la pieza a su estado anterior
 
-
-    
 
     def collision(self) -> Literal[True] | None:
         #Detect end of screen
@@ -102,7 +98,6 @@ class World:
                     if self.grid[i + self.block_offset[1]][j + self.block_offset[0]] != 0:
                         return True
     
-        
 
     def draw(self, screen):
         for i in range(0,self.rows):
@@ -113,7 +108,7 @@ class World:
                     self.cell_size,
                     self.cell_size,
                 )
-                pygame.draw.rect(screen,COLORS[0], posicion, 1 if self.grid[i][j] == 0 else 0,) #dibujamos el rectangulo donde va a estar la grilla ; el 1 es el grosor en px de la linea que delimita las celdas
+                pygame.draw.rect(screen,COLORS[0], posicion, 1 if self.grid[i][j] == 0 else 0) 
         # Draw next block
         for i, block_row in enumerate(self.next_block):
             for j, block_element in enumerate(block_row):
@@ -124,8 +119,7 @@ class World:
                     self.cell_size
                 )
                 if block_element != 0:
-                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0,
-                                     )
+                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0)
 
         # Draw current block
         for i, block_row in enumerate(self.block):
@@ -137,5 +131,4 @@ class World:
                     self.cell_size,
                 )
                 if block_element != 0:
-                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0,
-                                     )
+                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0)
