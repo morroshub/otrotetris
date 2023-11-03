@@ -38,11 +38,3 @@ O_PIECE = TetrisPiece([[1, 1], [1, 1]], (255, 255, 0))  # Amarillo
 T_PIECE = TetrisPiece([[0, 1, 0], [1, 1, 1]], (128, 0, 128))  # Púrpura
 S_PIECE = TetrisPiece([[0, 1, 1], [1, 1, 0]], (0, 255, 0))  # Verde
 Z_PIECE = TetrisPiece([[1, 1, 0], [0, 1, 1]], (255, 0, 0))  # Rojo
-
-I_block = I_PIECE
-J_block = J_PIECE
-L_block = L_PIECE
-O_block = O_PIECE
-T_block = T_PIECE
-S_block = S_PIECE
-Z_block = Z_PIECE

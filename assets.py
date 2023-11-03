@@ -3,23 +3,7 @@ from constants import *
 from typing import Literal
 import random
 
-
-Tblock = [
-    [0,2,0,],
-    [2,2,2,],
-]  
-
-Iblock = [
-    [1, 
-    1,
-    1,
-    1]
-]
-
-Zblock = [[1, 1, 0], [0, 1, 1]]
-
-
-block_list = [Iblock,Tblock,Zblock] #[I_block,J_block,L_block,O_block,T_block,S_block,Z_block]
+block_list = [I_PIECE,J_PIECE,L_PIECE,O_PIECE,T_PIECE,S_PIECE,Z_PIECE]
 
 # Jblock,Lblock,Oblock,Sblock
 # logica_rotacion = list(zip(*tblock[::-1])) Esto invierte nuestra lista de [[0,2,0],[2,2,2]] a [[2,2,2],[0,2,0]]
@@ -37,9 +21,12 @@ class World:
 
         #self.grid[-1] = [1 for _ in range(self.columns)]
         #self.grid[-1][0] = 0
-
-        self.next_block = random.choice(block_list)
-        self.block = random.choice(block_list)
+        buffer_block = random.choice(block_list)
+        self.next_block = buffer_block.shape
+        self.next_block_color = buffer_block.color
+        buffer_block = random.choice(block_list)
+        self.block = buffer_block.shape
+        self.block_color = buffer_block.color
         self.block_offset = [int(self.columns/2)-1, 0]
     
     def move (self, x, y) -> None:
@@ -56,7 +43,10 @@ class World:
             self.clear_rows()
 
             self.block = self.next_block
-            self.next_block = random.choice(block_list)
+            self.next_block_color = self.next_block_color
+            buffer_block = random.choice(block_list)
+            self.next_block = buffer_block.shape
+            self.next_block_color = buffer_block.color
             self.block_offset = [int(self.columns/2)-1, 0]
         
     def clear_rows(self) -> None:
@@ -101,7 +91,7 @@ class World:
 
     def draw(self, screen):
         for i in range(0,self.rows):
-            for j in range(0,self.columns):
+            for j in range(self.columns):
                 posicion = (
                     j * self.cell_size + SCREEN_RESOLUTION[0] / 2 - self.columns * self.cell_size / 2,#calcula la posición en píxeles de una celda en la columna j de manera que esté centrada horizontalmente en la pantalla.
                     i * self.cell_size + SCREEN_RESOLUTION[1] / 2 - self.rows * self.cell_size / 2,
@@ -119,7 +109,7 @@ class World:
                     self.cell_size
                 )
                 if block_element != 0:
-                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0)
+                    pygame.draw.rect(screen, self.next_block_color, posicion, 0)
 
         # Draw current block
         for i, block_row in enumerate(self.block):
@@ -131,4 +121,4 @@ class World:
                     self.cell_size,
                 )
                 if block_element != 0:
-                    pygame.draw.rect(screen, COLORS[block_element], posicion, 0)
+                    pygame.draw.rect(screen, self.block_color, posicion, 0)
