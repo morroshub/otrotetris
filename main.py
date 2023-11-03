@@ -71,11 +71,17 @@ def game_loop_scene() -> None:
                     Grid.move(1, 0)
                     last_move_time = current_time
                 
-
-
         #Creacion de figuras
         Grid.draw(screen)
+        if game_pause:
+            font = pygame.font.Font('freesansbold.ttf', 32)
+            pause_text = font.render(' PAUSE ', True, WHITE, BLACK)
+            pause_textRect = pause_text.get_rect()
+            pause_textRect.center = (SCREEN_RESOLUTION[0] // 2, SCREEN_RESOLUTION[1] // 2)
+            screen.blit(pause_text, pause_textRect)
         pygame.display.update()
+        
+        
     end_scene()
 
 def end_scene() -> None:
@@ -99,7 +105,7 @@ def end_scene() -> None:
         #Draw
         #Draw a text using pygame
         font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render('GAME OVER', True, RED, WHITE)
+        text = font.render(' GAME OVER ', True, RED, WHITE)
         textRect = text.get_rect()
         textRect.center = (SCREEN_RESOLUTION[0] // 2, SCREEN_RESOLUTION[1]//2)
         screen.blit(text, textRect)
