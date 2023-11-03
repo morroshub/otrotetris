@@ -43,7 +43,7 @@ class World:
             self.clear_rows()
 
             self.block = self.next_block
-            self.next_block_color = self.next_block_color
+            self.block_color = self.next_block_color
             buffer_block = random.choice(block_list)
             self.next_block = buffer_block.shape
             self.next_block_color = buffer_block.color
