@@ -4,6 +4,7 @@ from constants import *
 from assets import *
 
 def end_game() -> NoReturn:
+    pygame.mixer.quit()
     pygame.quit()
     quit()
 
@@ -18,6 +19,9 @@ Grid = World()
 time_delay = 500 # velocidad de caida
 timer_event = pygame.USEREVENT + 1
 pygame.time.set_timer(timer_event, time_delay)
+pygame.mixer.init()
+pygame.mixer.music.load('tetris.mp3')
+pygame.mixer.music.play(-1) # -1 for infinite loop play
 
 def game_loop_scene() -> None:
     # Gameloop
@@ -36,6 +40,10 @@ def game_loop_scene() -> None:
                     end_game()
                 if event.key == pygame.K_p:
                     game_pause = not game_pause
+                    if game_pause:
+                        pygame.mixer.music.pause()
+                    else:
+                        pygame.mixer.music.unpause()
                 if event.key == pygame.K_RIGHT:
                     if (not game_pause):
                         Grid.move(1,0)
@@ -86,6 +94,7 @@ def game_loop_scene() -> None:
 
 def end_scene() -> None:
     #Game loop
+    pygame.mixer.music.stop()
     restart = False
     while not restart:
         clock.tick(FPS)
@@ -98,6 +107,7 @@ def end_scene() -> None:
                     end_game()
                 if event.key == pygame.K_SPACE:
                     pygame.time.set_timer(timer_event, time_delay)
+                    pygame.mixer.music.play(-1) 
                     restart = True
         
         key = pygame.key.get_pressed()
